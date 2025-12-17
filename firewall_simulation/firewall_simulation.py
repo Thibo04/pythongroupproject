@@ -137,11 +137,3 @@ def start_firewall_simulation():
                 print(f"- {ip}: {reason}")
 
 
-# =================================================
-# Local testing
-# =================================================
-
-if __name__ == "__main__":
-    start_firewall_simulation()
-
-
