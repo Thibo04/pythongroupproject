@@ -119,5 +119,29 @@ def start_firewall_simulation():
             packet_count[ip] = packet_count.get(ip, 0) + 1
             if packet_count[ip] > dos_limit:
                 blocked_ips[ip] = "DoS attack"
-                pri
+                print(f"[BLOCKED] {ip} | reason: DoS attack")
+                time.sleep(0.1)
+                continue
+
+            # Allowed traffic
+            print(f"[ALLOW ] {ip}")
+            time.sleep(0.1)
+
+    except KeyboardInterrupt:
+        print("\nSimulation stopped.")
+        print("Blocked IP summary:")
+        if not blocked_ips:
+            print("No IPs were blocked.")
+        else:
+            for ip, reason in blocked_ips.items():
+                print(f"- {ip}: {reason}")
+
+
+# =================================================
+# Local testing
+# =================================================
+
+if __name__ == "__main__":
+    start_firewall_simulation()
+
 
