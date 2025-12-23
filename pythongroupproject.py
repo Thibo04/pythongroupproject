@@ -3,6 +3,8 @@
 #Ihr könnt euren code gleich unter dem jeweiligen Kommentar einfügen. Für das separate erstellen/bearbeiten würde ich zuerst
 #in einem offline-fenster arbeiten
 
+from firewall_simulation.firewall_simulation import start_firewall_simulation
+
 # 1. option: network scanner
 
 
@@ -65,6 +67,11 @@ if __name__ == "__main__":
 
 
 # 3. option: Firewall-/DoS-Simulation
+
+def firewall_menu() -> None:
+    print("\n=== Firewall / DoS Simulation ===")
+    print("Press CTRL+C to stop\n")
+    start_firewall_simulation()
 
 
 
