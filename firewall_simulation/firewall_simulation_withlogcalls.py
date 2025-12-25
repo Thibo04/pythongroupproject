@@ -2,6 +2,9 @@ import random   # for random IP addresses and random traffic
 import time     # to add small pauses so output is readable
 import os       # to find files (config folder)
 
+from logging_setup import get_logger
+logger = get_logger(__name__, "firewall_simulation.log")
+
 
 # =================================================
 # I) File paths
@@ -47,6 +50,7 @@ def load_lines(filename):
     except FileNotFoundError:
         # Print a warning if the file does not exist
         print(f"[WARN] Missing config file: {filename}")
+        logger.warning(f"Missing config file: {filename}")
 
     # Return the list of valid lines
     return lines
@@ -65,6 +69,7 @@ def load_int(filename, default_value):
                     return int(line)
     except Exception:
         print(f"[WARN] Invalid or missing {filename}, using {default_value}")
+        logger.warning(f"Invalid or missing {filename}, using default {default_value}")
 
     return default_value
 
@@ -105,6 +110,10 @@ def start_firewall_simulation():
     print(f"Nimda signature : {nimda_signature}")
     print("Press CTRL+C to stop\n")
 
+    # Log start + config once
+    logger.info("Firewall simulation started")
+    logger.info(f"Blacklist IPs: {len(blacklist)} | DoS limit: {dos_limit} | Nimda signature: {nimda_signature}")
+
     try:
         while True:
             # Generate a random source IP address
@@ -120,6 +129,7 @@ def start_firewall_simulation():
             # If the IP is already blocked, print it and skip
             if ip in blocked_ips:
                 print(f"[BLOCKED] {ip} | reason: {blocked_ips[ip]}")
+                logger.warning(f"BLOCKED {ip} | reason: {blocked_ips[ip]}")
                 time.sleep(0.1)
                 continue
 
@@ -127,6 +137,7 @@ def start_firewall_simulation():
             if ip in blacklist:
                 blocked_ips[ip] = "Blacklist"
                 print(f"[BLOCKED] {ip} | reason: Blacklist")
+                logger.warning(f"BLOCKED {ip} | reason: Blacklist")
                 time.sleep(0.1)
                 continue
 
@@ -134,6 +145,7 @@ def start_firewall_simulation():
             if nimda_signature in payload:
                 blocked_ips[ip] = "Nimda malware"
                 print(f"[BLOCKED] {ip} | reason: Nimda malware")
+                logger.warning(f"BLOCKED {ip} | reason: Nimda malware")
                 time.sleep(0.1)
                 continue
 
@@ -142,22 +154,26 @@ def start_firewall_simulation():
             if packet_count[ip] > dos_limit:
                 blocked_ips[ip] = "DoS attack"
                 print(f"[BLOCKED] {ip} | reason: DoS attack")
+                logger.warning(f"BLOCKED {ip} | reason: DoS attack | packets={packet_count[ip]}")
                 time.sleep(0.1)
                 continue
 
             # If no rule blocked the IP, allow the traffic
             print(f"[ALLOW ] {ip}")
+            logger.info(f"ALLOWED {ip}")
             time.sleep(0.1)
 
     except KeyboardInterrupt:
         print("\nSimulation stopped.")
         print("Blocked IP summary:")
 
+        logger.info("Firewall simulation stopped by user (CTRL+C)")
+        logger.info(f"Total blocked IPs: {len(blocked_ips)}")
+
         if not blocked_ips:
             print("No IPs were blocked.")
+            logger.info("No IPs were blocked.")
         else:
             for ip, reason in blocked_ips.items():
                 print(f"- {ip}: {reason}")
-
-
-
+                logger.warning(f"Blocked summary: {ip} | reason: {reason}")
