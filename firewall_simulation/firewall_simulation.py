@@ -7,7 +7,7 @@ import os       # to find files (config folder)
 # I) File paths
 # =================================================
 
-# Get the folder where this Python file is located (only keeps the name of the file)
+# Get the folder where this Python file is located (keeps only the folder path)
 BASE_DIR = os.path.dirname(__file__)
 
 # Build the path to the config folder (blacklist, DoS config, etc.)
@@ -77,6 +77,8 @@ def load_int(filename, default_value):
 # - blocks IPs based on blacklist
 # - blocks packets containing a malware signature (Nimda)
 # - blocks IPs if they send too many packets (DoS)
+
+# This function is called from the main menu (option 3)
 def start_firewall_simulation():
     # Load blacklist IPs from config
     blacklist = set(load_lines("blacklist.txt"))
