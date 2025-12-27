@@ -1,6 +1,11 @@
 import random   # for random IP addresses and random traffic
 import time     # to add small pauses so output is readable
 import os       # to find files (config folder)
+import sys      # used to modify Python's module search path (sys.path)
+
+# add project root (pythongroupproject) to PYTHONPATH so imports work from subfolders
+sys.path.append(os.path.dirname(os.path.dirname(__file__)))
+
 
 from logging_setup import get_logger
 logger = get_logger(__name__, "firewall_simulation.log")
@@ -177,3 +182,6 @@ def start_firewall_simulation():
             for ip, reason in blocked_ips.items():
                 print(f"- {ip}: {reason}")
                 logger.warning(f"Blocked summary: {ip} | reason: {reason}")
+
+if __name__ == "__main__":
+    start_firewall_simulation()
