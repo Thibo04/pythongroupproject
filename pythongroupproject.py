@@ -13,7 +13,6 @@ from firewall_simulation.firewall_simulation import start_firewall_simulation
 
 
 # 2. option: Service & OS-Fingerprinting
-# main.py
 from __future__ import annotations
 
 from fingerprinting import fingerprint_host
