@@ -1,19 +1,24 @@
-####################
-# Author: Marc Nekes
-# Description: This program is a port scanner that scans whether a pre-defined range of ports on a network is open or not.
-####################
+###############################
+# File: port_scanner.py
+# Purpose:
+#   Simple TCP port scanner that checks a user-defined port range on a given IP
+#   and reports which ports are open. Results are also written to a log file.
+#
+#   - Validates user input (IP format and port range format) to avoid crashes
+#   - Uses timeouts so the scan does not hang on filtered ports
+#   - Logs key events (start/end, open ports, closed ports) for reporting
+###############################
 
 import socket
 import re
 
 from logging_setup import get_logger
-#Change by Thibo: I added the function and indented this script in order to add it to the main-function.
 def port_scanner_withlogcalls():
     logger = get_logger(__name__, "port_scanner.log")
 
 
-    # Ask user to insert the ip-adress he wants to scan.
-    # Check if ip-adress is valid through comparing it to ip-adress pattern.
+    # Ask user to insert the IP address they want to scan.
+    # The regex ensures the input matches an IPv4-like format so the program does not fail on obvious invalid input.
     while True:
         ip_format = re.compile("^(?:[0-9]{1,3}\\.){3}[0-9]{1,3}$")
         ip_adress = input("\nPlease insert an ip-adress you want to scan:")
@@ -23,7 +28,8 @@ def port_scanner_withlogcalls():
             break
 
 
-    # Ask user to insert the port range he wants to scan
+    # Ask user to insert the port range to scan.
+    # Format min-max is validated with regex; this avoids ValueError when converting to integers.
     while True:
         port_format = re.compile("([0-9]+)-([0-9]+)")
         port_range = input(
@@ -36,12 +42,13 @@ def port_scanner_withlogcalls():
             break
 
 
-    # Create empty list, in which later all open ports are stored
+    # Create a list to store open ports for a final summary output.
     ports_open = []
 
     logger.info("Port scan started")
 
-    # Repeat the port scan for every defined port from port_min to port_max
+    # Repeat the port scan for every defined port from port_min to port_max.
+    # Uses a short timeout to keep the scan responsive even if ports are filtered/unresponsive.
     for port in range(port_min, port_max + 1):
         try:
             with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
@@ -55,7 +62,7 @@ def port_scanner_withlogcalls():
             logger.info(f"Port closed: {ip_adress}:{port}")
 
 
-    # Summary
+    # Summary is logged.
     logger.info(f"Port scan finished. Open ports found: {ports_open}")
 
     for port in ports_open:
