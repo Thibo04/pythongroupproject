@@ -80,7 +80,7 @@ def firewall_menu() -> None:
 
 # 4. option: Stealth Mode
 from stealth_engine import set_stealth_mode
-import stealth_engine
+import stealth_engine as stealth_engine
 
 # 5. option: Reporting & Logging
 from logging_setup import get_logger
