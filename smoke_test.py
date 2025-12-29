@@ -48,7 +48,7 @@ import ctypes
 #   rights (it prints instructions instead).
 
 
-def main() -> None:
+def main_smoke_test() -> None:
     # ---- Import diagnostics ----
     print("Python:", sys.version.replace("\n", " "))
     print("Imported stealth_engine from:", se.__file__)
@@ -76,43 +76,22 @@ def main() -> None:
     # ---- Probes ----
     # Create some sample probes using `Probe.make`. These exercises the
     # `StealthEngine.evaluate()` logic and also demonstrate determinism.
-    probes = [
-        Probe.make(
-            probe_type=ProbeType.ICMP_ECHO,
-            source_ip="10.0.0.5",
-            timestamp_ms=1000,
-            event_id="p1",
-        ),
-        Probe.make(
-            probe_type=ProbeType.ICMP_ECHO,
-            source_ip="10.0.0.5",
-            timestamp_ms=1010,
-            event_id="p2",
-        ),
-        Probe.make(
-            probe_type=ProbeType.TCP_SYN,
-            source_ip="10.0.0.8",
-            timestamp_ms=1020,
-            event_id="p3",
-        ),
+    # Build probes from compact data tuples to keep code concise and clear.
+    probes_data = [
+        (ProbeType.ICMP_ECHO, "10.0.0.5", 1000, "p1"),
+        (ProbeType.ICMP_ECHO, "10.0.0.5", 1010, "p2"),
+        (ProbeType.TCP_SYN, "10.0.0.8", 1020, "p3"),
     ]
 
-# Alternate suggestion, for writing the above code more compact. 
-#     probes_data = [
-#     (ProbeType.ICMP_ECHO, "10.0.0.5", 1000, "p1"),
-#     (ProbeType.ICMP_ECHO, "10.0.0.5", 1010, "p2"),
-#     (ProbeType.TCP_SYN,   "10.0.0.8", 1020, "p3"),
-# ]
-
-# probes = [
-#     Probe.make(
-#         probe_type=ptype,
-#         source_ip=ip,
-#         timestamp_ms=ts,
-#         event_id=eid,
-#     )
-#     for ptype, ip, ts, eid in probes_data
-# ]
+    probes = [
+        Probe.make(
+            probe_type=ptype,
+            source_ip=ip,
+            timestamp_ms=ts,
+            event_id=eid,
+        )
+        for ptype, ip, ts, eid in probes_data
+    ]
 
     print("Decisions:")
     for p in probes:
@@ -128,14 +107,16 @@ def main() -> None:
     print()
 
     # ---- Order-independence check: evaluate in reverse order using a new engine ----
-    engine_a = engine_b = StealthEngine(cfg)
-    a1 = b1 = engine_a.evaluate(probes[0])
-    a2 = b2 = engine_a.evaluate(probes[1])
+    engine_a = StealthEngine(cfg)
+    engine_b = StealthEngine(cfg)
 
-    # Suggestion to write code shorter (b1 and b2 are now in the above equation)
-    # engine_b = StealthEngine(cfg)
-    # b2 = engine_b.evaluate(probes[1])
-    # b1 = engine_b.evaluate(probes[0])
+    # Forward evaluation on engine_a
+    a1 = engine_a.evaluate(probes[0])
+    a2 = engine_a.evaluate(probes[1])
+
+    # Reverse evaluation on engine_b
+    b2 = engine_b.evaluate(probes[1])
+    b1 = engine_b.evaluate(probes[0])
 
     ok = (a1 == b1) and (a2 == b2)
     print("Order-independence check:", "OK" if ok else "FAIL")
@@ -194,4 +175,4 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    main_smoke_test()
