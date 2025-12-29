@@ -1,9 +1,24 @@
-import random   # for random IP addresses and random traffic
-import time     # to add small pauses so output is readable
-import os       # to find files (config folder)
-import sys      # used to modify Python's module search path (sys.path)
+###############################
+# File: firewall_simulation.py
+# Purpose:
+#   Simulates a simple firewall and DoS detection mechanism by generating random
+#   network traffic and applying three rule types:
+#     1) Block IPs on a blacklist (config/blacklist.txt)
+#     2) Block packets containing a malware signature (config/nimda_signature.txt)
+#     3) Block IPs exceeding a request threshold (DoS simulation; config/dos_config.txt)
+#
+#   - Robust configuration loading (ignores comments/empty lines, uses defaults on errors)
+#   - Safe failure behavior (missing/invalid config does not crash the simulation)
+#   - Clear separation between config parsing and simulation logic
+#   - Logging of important events for reporting (allowed vs blocked + reasons)
+###############################
 
-# add project root (pythongroupproject) to PYTHONPATH so imports work from subfolders
+import random
+import time
+import os
+import sys
+
+# Add project root to PYTHONPATH so imports work when this script is run from subfolders.
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
 
@@ -11,58 +26,37 @@ from logging_setup import get_logger
 logger = get_logger(__name__, "firewall_simulation.log")
 
 
-# =================================================
-# I) File paths
-# =================================================
 
 # Get the folder where this Python file is located (only keeps the name of the file)
 BASE_DIR = os.path.dirname(__file__)
-
 # Build the path to the config folder (blacklist, DoS config, etc.)
 CONFIG_DIR = os.path.join(BASE_DIR, "config")
 
-# =================================================
-# II) Functions to read configuration files
-# =================================================
 
-# This function reads a config file
-# - ignores empty lines
-# - ignores lines starting with '#'
-# - returns only useful lines (IPs, signatures, etc.)
+# This function reads a config file and returns a list of meaningful lines.
 def load_lines(filename):
-    # Build the full path to the config file
     path = os.path.join(CONFIG_DIR, filename)
-
-    # Create an empty list to store valid lines
     lines = []
 
     try:
-        # Open the file in read mode
         with open(path, "r", encoding="utf-8") as file:
-
-            # Read the file line by line
             for line in file:
-
-                # Remove spaces and newline characters
                 line = line.strip()
 
-                # Check that the line is not empty and not a comment
+                # Only keep lines that contain actual configuration values.
                 if line and not line.startswith("#"):
-
-                    # Add the valid line to the list
                     lines.append(line)
 
     except FileNotFoundError:
-        # Print a warning if the file does not exist
+        # Missing config should not crash the program.
         print(f"[WARN] Missing config file: {filename}")
         logger.warning(f"Missing config file: {filename}")
 
-    # Return the list of valid lines
     return lines
 
 
-# This function reads a number from a config file (example: DoS threshold)
-# If the file is missing or invalid, we use a default value
+# This function reads a single integer from a config file (e.g., DoS threshold).
+# If the file is missing or contains invalid content, it falls back to a default value.
 def load_int(filename, default_value):
     path = os.path.join(CONFIG_DIR, filename)
 
@@ -78,15 +72,9 @@ def load_int(filename, default_value):
 
     return default_value
 
-# =================================================
-# III) Firewall / DoS Simulation
-# =================================================
 
-# This function simulates a simple firewall:
-# - generates random network traffic
-# - blocks IPs based on blacklist
-# - blocks packets containing a malware signature (Nimda)
-# - blocks IPs if they send too many packets (DoS)
+# This function simulates firewall behavior by generating random traffic and applying rules.
+# It is designed as a continuous loop that can be stopped by the user with CTRL+C.
 def start_firewall_simulation():
     # Load blacklist IPs from config
     blacklist = set(load_lines("blacklist.txt"))
@@ -97,48 +85,44 @@ def start_firewall_simulation():
     # Default malware signature
     nimda_signature = "NIMDA"
 
-    # Load malware signature from file if available (use first line)
+    # Load malware signature from file if available.
     nimda_lines = load_lines("nimda_signature.txt")
     if nimda_lines:
         nimda_signature = nimda_lines[0]
 
-    # Count how many packets each IP has sent (for DoS detection)
     packet_count = {}
-
-    # Store blocked IPs and the reason why they were blocked
     blocked_ips = {}
 
-    # Show firewall configuration to the user
     print("\n=== Firewall / DoS Simulation ===")
     print(f"Blacklist IPs   : {len(blacklist)}")
     print(f"DoS threshold   : {dos_limit} packets per IP")
     print(f"Nimda signature : {nimda_signature}")
     print("Press CTRL+C to stop\n")
 
-    # Log start + config once
+    # Log configuration at start
     logger.info("Firewall simulation started")
     logger.info(f"Blacklist IPs: {len(blacklist)} | DoS limit: {dos_limit} | Nimda signature: {nimda_signature}")
 
     try:
         while True:
-            # Generate a random source IP address
+            # Generate a pseudo-random internal IP (simulation only).
             ip = f"192.168.1.{random.randint(1, 254)}"
 
-            # Fake packet content (payload)
+            # Default payload is normal traffic.
             payload = "NORMAL"
 
-            # Small chance to simulate malware traffic
+            # Small probability to simulate malicious payload traffic.
             if random.random() < 0.01:
                 payload = f"...{nimda_signature}..."
 
-            # If the IP is already blocked, print it and skip
+            # If already blocked, skip rule evaluation and report.
             if ip in blocked_ips:
                 print(f"[BLOCKED] {ip} | reason: {blocked_ips[ip]}")
                 logger.warning(f"BLOCKED {ip} | reason: {blocked_ips[ip]}")
                 time.sleep(0.1)
                 continue
 
-            # Rule 1: block if IP is in blacklist
+            # Rule 1: Block based on blacklist membership.
             if ip in blacklist:
                 blocked_ips[ip] = "Blacklist"
                 print(f"[BLOCKED] {ip} | reason: Blacklist")
@@ -146,7 +130,7 @@ def start_firewall_simulation():
                 time.sleep(0.1)
                 continue
 
-            # Rule 2: block if malware signature is found
+            # Rule 2: Block if malware signature appears in payload.
             if nimda_signature in payload:
                 blocked_ips[ip] = "Nimda malware"
                 print(f"[BLOCKED] {ip} | reason: Nimda malware")
@@ -154,7 +138,7 @@ def start_firewall_simulation():
                 time.sleep(0.1)
                 continue
 
-            # Rule 3: DoS detection (too many packets from same IP)
+            # Rule 3: DoS detection by counting packets per IP.
             packet_count[ip] = packet_count.get(ip, 0) + 1
             if packet_count[ip] > dos_limit:
                 blocked_ips[ip] = "DoS attack"
@@ -163,12 +147,13 @@ def start_firewall_simulation():
                 time.sleep(0.1)
                 continue
 
-            # If no rule blocked the IP, allow the traffic
+            # If the traffic passes all rules, it is allowed.
             print(f"[ALLOW ] {ip}")
             logger.info(f"ALLOWED {ip}")
             time.sleep(0.1)
 
     except KeyboardInterrupt:
+        # CTRL+C is treated as a normal exit condition; report a summary.
         print("\nSimulation stopped.")
         print("Blocked IP summary:")
 
@@ -179,6 +164,7 @@ def start_firewall_simulation():
             print("No IPs were blocked.")
             logger.info("No IPs were blocked.")
         else:
+            # Print a readable summary of all blocked IPs and reasons.
             for ip, reason in blocked_ips.items():
                 print(f"- {ip}: {reason}")
                 logger.warning(f"Blocked summary: {ip} | reason: {reason}")
