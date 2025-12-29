@@ -1,0 +1,2 @@
+2025-12-27 23:21:11,196 - INFO - Manual test run: fingerprinting 192.168.1.10 ports=[22, 80, 443]
+2025-12-27 23:21:11,196 - INFO - Fingerprint scan started for 192.168.1.10 ports=22,80,443

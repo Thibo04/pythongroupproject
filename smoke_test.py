@@ -97,6 +97,23 @@ def main() -> None:
         ),
     ]
 
+# Alternate suggestion, for writing the above code more compact. 
+#     probes_data = [
+#     (ProbeType.ICMP_ECHO, "10.0.0.5", 1000, "p1"),
+#     (ProbeType.ICMP_ECHO, "10.0.0.5", 1010, "p2"),
+#     (ProbeType.TCP_SYN,   "10.0.0.8", 1020, "p3"),
+# ]
+
+# probes = [
+#     Probe.make(
+#         probe_type=ptype,
+#         source_ip=ip,
+#         timestamp_ms=ts,
+#         event_id=eid,
+#     )
+#     for ptype, ip, ts, eid in probes_data
+# ]
+
     print("Decisions:")
     for p in probes:
         d = engine.evaluate(p)
@@ -111,13 +128,14 @@ def main() -> None:
     print()
 
     # ---- Order-independence check: evaluate in reverse order using a new engine ----
-    engine_a = StealthEngine(cfg)
-    a1 = engine_a.evaluate(probes[0])
-    a2 = engine_a.evaluate(probes[1])
+    engine_a = engine_b = StealthEngine(cfg)
+    a1 = b1 = engine_a.evaluate(probes[0])
+    a2 = b2 = engine_a.evaluate(probes[1])
 
-    engine_b = StealthEngine(cfg)
-    b2 = engine_b.evaluate(probes[1])
-    b1 = engine_b.evaluate(probes[0])
+    # Suggestion to write code shorter (b1 and b2 are now in the above equation)
+    # engine_b = StealthEngine(cfg)
+    # b2 = engine_b.evaluate(probes[1])
+    # b1 = engine_b.evaluate(probes[0])
 
     ok = (a1 == b1) and (a2 == b2)
     print("Order-independence check:", "OK" if ok else "FAIL")

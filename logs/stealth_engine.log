@@ -1,0 +1,8 @@
+2025-12-27 23:20:16,899 - INFO - Running stealth_engine demo (__main__)
+2025-12-27 23:20:16,899 - INFO - StealthEngine initialized.
+2025-12-27 23:20:16,899 - INFO - Dropped ICMP echo probe (ignore_pings enabled).
+2025-12-27 23:20:16,899 - INFO - Decision for icmp_echo from 10.0.0.5: DECISION: drop [icmp_drop]
+2025-12-27 23:20:16,899 - INFO - Delayed probe by 41 ms.
+2025-12-27 23:20:16,899 - INFO - Decision for tcp_syn from 10.0.0.5: DECISION: delay (41ms) [jitter]
+2025-12-27 23:20:16,899 - INFO - Delayed probe by 39 ms.
+2025-12-27 23:20:16,899 - INFO - Decision for udp_packet from 10.0.0.6: DECISION: delay (39ms) [jitter]

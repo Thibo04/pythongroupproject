@@ -1,0 +1,73 @@
+2025-12-25 03:24:42,681 - INFO - Target IP entered: 192.168.1.1
+2025-12-25 03:24:50,283 - INFO - Port scan range selected: 20-25
+2025-12-25 03:24:50,284 - INFO - Port scan started
+2025-12-25 03:24:50,787 - INFO - Port closed: 192.168.1.1:20
+2025-12-25 03:24:50,801 - WARNING - OPEN port detected: 192.168.1.1:21
+2025-12-25 03:24:51,303 - INFO - Port closed: 192.168.1.1:22
+2025-12-25 03:24:51,805 - INFO - Port closed: 192.168.1.1:23
+2025-12-25 03:24:52,306 - INFO - Port closed: 192.168.1.1:24
+2025-12-25 03:24:52,808 - INFO - Port closed: 192.168.1.1:25
+2025-12-25 03:24:52,809 - INFO - Port scan finished. Open ports found: [21]
+2025-12-27 14:37:15,448 - INFO - Target IP entered: 192.168.1.1
+2025-12-27 14:37:20,529 - INFO - Port scan range selected: 20-30
+2025-12-27 14:37:20,529 - INFO - Port scan started
+2025-12-27 14:37:21,032 - INFO - Port closed: 192.168.1.1:20
+2025-12-27 14:37:21,534 - INFO - Port closed: 192.168.1.1:21
+2025-12-27 14:37:22,035 - INFO - Port closed: 192.168.1.1:22
+2025-12-27 14:37:22,537 - INFO - Port closed: 192.168.1.1:23
+2025-12-27 14:37:23,040 - INFO - Port closed: 192.168.1.1:24
+2025-12-27 14:37:23,541 - INFO - Port closed: 192.168.1.1:25
+2025-12-27 14:37:24,043 - INFO - Port closed: 192.168.1.1:26
+2025-12-27 14:37:24,547 - INFO - Port closed: 192.168.1.1:27
+2025-12-27 14:37:25,049 - INFO - Port closed: 192.168.1.1:28
+2025-12-27 14:37:25,551 - INFO - Port closed: 192.168.1.1:29
+2025-12-27 14:37:26,053 - INFO - Port closed: 192.168.1.1:30
+2025-12-27 14:37:26,053 - INFO - Port scan finished. Open ports found: []
+2025-12-27 15:18:06,552 - INFO - Target IP entered: 192.168.1.16
+2025-12-27 15:18:12,442 - INFO - Port scan range selected: 20-21
+2025-12-27 15:18:12,442 - INFO - Port scan started
+2025-12-27 15:18:12,945 - INFO - Port closed: 192.168.1.16:20
+2025-12-27 15:18:13,447 - INFO - Port closed: 192.168.1.16:21
+2025-12-27 15:18:13,447 - INFO - Port scan finished. Open ports found: []
+2025-12-27 15:29:09,788 - INFO - Target IP entered: 192.168.1.16
+2025-12-27 15:29:12,980 - INFO - Port scan range selected: 10-12
+2025-12-27 15:29:12,980 - INFO - Port scan started
+2025-12-27 15:29:13,483 - INFO - Port closed: 192.168.1.16:10
+2025-12-27 15:29:13,985 - INFO - Port closed: 192.168.1.16:11
+2025-12-27 15:29:14,487 - INFO - Port closed: 192.168.1.16:12
+2025-12-27 15:29:14,487 - INFO - Port scan finished. Open ports found: []
+2025-12-27 15:31:07,073 - INFO - Target IP entered: 192.168.1.1
+2025-12-27 15:31:10,187 - INFO - Port scan range selected: 10-12
+2025-12-27 15:31:10,187 - INFO - Port scan started
+2025-12-27 15:31:10,200 - INFO - Port closed: 192.168.1.1:10
+2025-12-27 15:31:10,204 - INFO - Port closed: 192.168.1.1:11
+2025-12-27 15:31:10,207 - INFO - Port closed: 192.168.1.1:12
+2025-12-27 15:31:10,207 - INFO - Port scan finished. Open ports found: []
+2025-12-27 15:50:01,629 - INFO - Target IP entered: 192.168.1.16
+2025-12-27 15:50:04,357 - INFO - Port scan range selected: 10-12
+2025-12-27 15:50:04,358 - INFO - Port scan started
+2025-12-27 15:50:04,399 - INFO - Port closed: 192.168.1.16:10
+2025-12-27 15:50:04,405 - INFO - Port closed: 192.168.1.16:11
+2025-12-27 15:50:04,412 - INFO - Port closed: 192.168.1.16:12
+2025-12-27 15:50:04,413 - INFO - Port scan finished. Open ports found: []
+2025-12-27 15:59:45,331 - INFO - Target IP entered: 192.168.1.1
+2025-12-27 15:59:47,962 - INFO - Port scan range selected: 10-12
+2025-12-27 15:59:47,962 - INFO - Port scan started
+2025-12-27 15:59:47,967 - INFO - Port closed: 192.168.1.1:10
+2025-12-27 15:59:47,971 - INFO - Port closed: 192.168.1.1:11
+2025-12-27 15:59:47,976 - INFO - Port closed: 192.168.1.1:12
+2025-12-27 15:59:47,977 - INFO - Port scan finished. Open ports found: []
+2025-12-27 18:09:18,944 - INFO - Target IP entered: 192.168.1.1
+2025-12-27 18:09:21,527 - INFO - Port scan range selected: 10-12
+2025-12-27 18:09:21,527 - INFO - Port scan started
+2025-12-27 18:09:22,030 - INFO - Port closed: 192.168.1.1:10
+2025-12-27 18:09:22,532 - INFO - Port closed: 192.168.1.1:11
+2025-12-27 18:09:23,034 - INFO - Port closed: 192.168.1.1:12
+2025-12-27 18:09:23,034 - INFO - Port scan finished. Open ports found: []
+2025-12-29 13:04:01,458 - INFO - Target IP entered: 192.168.1.1
+2025-12-29 13:04:05,164 - INFO - Port scan range selected: 10-12
+2025-12-29 13:04:05,165 - INFO - Port scan started
+2025-12-29 13:04:05,177 - INFO - Port closed: 192.168.1.1:10
+2025-12-29 13:04:05,181 - INFO - Port closed: 192.168.1.1:11
+2025-12-29 13:04:05,183 - INFO - Port closed: 192.168.1.1:12
+2025-12-29 13:04:05,183 - INFO - Port scan finished. Open ports found: []
