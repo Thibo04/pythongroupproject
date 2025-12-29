@@ -23,7 +23,7 @@ from fingerprinting import fingerprint_host
 def service_os_menu() -> None:
     # Menu handler for OS and service fingerprinting.
     # Collects user input (target IP, ports, options), validates it, then calls
-    #fingerprint_host(). Results are printed and saved to a CSV file.
+    # fingerprint_host(). Results are printed and saved to a CSV file.
     print("PyNetGuard – Service & OS Fingerprinting\n")
 
     ip = input("Target IP (e.g. 127.0.0.1): ").strip()
@@ -46,7 +46,7 @@ def service_os_menu() -> None:
         print("Invalid port list. Please enter only numbers separated by commas.")
         return
 
-    # Guard clause: running a scan without ports is not meaningful.
+    # Running a scan without ports is not meaningful.
     if not ports:
         print("No ports given – aborting scan.")
         return
@@ -97,8 +97,7 @@ from firewall_simulation.firewall_simulation import start_firewall_simulation
 
 def firewall_menu() -> None:
     # Menu handler for the firewall and DoS simulation module.
-    #The simulation runs until the user stops it (CTRL+C), which is typical for
-    #long-running monitoring or simulation processes.
+    #The simulation runs until the user stops it (CTRL+C).
     print("\n=== Firewall / DoS Simulation ===")
     print("Press CTRL+C to stop\n")
     start_firewall_simulation()
