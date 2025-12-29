@@ -1,6 +1,17 @@
-"""
-smoke_test.py
+###############################
+# File: smoke_test.py
+# Purpose:
+#   Provides a quick sanity test ("smoke test") for the stealth_engine module.
+#   It verifies that the engine can be imported correctly, produces deterministic
+#   decisions, and that key policies (e.g., ignore_pings) behave as expected.
+#
+#   - Helps detect broken imports or naming collisions early (prints se.__file__)
+#   - Demonstrates correct usage of the engine with small, safe test probes
+#   - Includes defensive error handling so the test itself does not crash
+#   - Keeps system-level changes safe by requiring Windows + Administrator
+###############################
 
+"""
 Quick sanity check and usage example for `stealth_engine.py`.
 
 What this file does
@@ -38,15 +49,6 @@ import sys
 import stealth_engine as se
 import ctypes
 
-# NOTE (changes):
-# - Replaced older `Probe.from_parts(...)` usage with the public factory
-#   `Probe.make(...)` which is the method provided by `stealth_engine.py`.
-# - Added a small Windows-only system-level demonstration that calls
-#   `set_stealth_mode(True/False)` to show how the firewall-based stealth
-#   toggle behaves. That demo is guarded by an Administrator check and will
-#   not attempt to change system firewall settings when run without admin
-#   rights (it prints instructions instead).
-
 
 def main_smoke_test() -> None:
     # ---- Import diagnostics ----
@@ -62,6 +64,7 @@ def main_smoke_test() -> None:
     ProbeType = se.ProbeType
 
     # ---- Configuration under test ----
+    # Uses a fixed seed to make decisions reproducible.
     cfg = StealthConfig(
         enabled=True,
         seed=123,
@@ -139,6 +142,7 @@ def main_smoke_test() -> None:
     print()
 
     # ---- System-level stealth demo (Windows only) ----
+    # This section demonstrates integration with system firewall settings.
     def is_admin() -> bool:
         try:
             return ctypes.windll.shell32.IsUserAnAdmin() != 0
@@ -146,7 +150,7 @@ def main_smoke_test() -> None:
             return False
 
     try:
-        # Import the helper we added in `stealth_engine.py` that manipulates
+        # Import the helper added in `stealth_engine.py` that manipulates
         # the Windows Firewall. On non-Windows systems this import or the
         # helper itself will raise NotImplementedError.
         from stealth_engine import set_stealth_mode
@@ -163,14 +167,14 @@ def main_smoke_test() -> None:
             ok2 = set_stealth_mode(False)
             print("Disable succeeded:", ok2)
         else:
-            # Not admin: we intentionally do nothing to system state and just
-            # instruct the user how to test the feature safely.
+            # Not admin: No system change is made.
+            # Instruct the user how to test the feature safely.
             print("Not running as Administrator. To test system stealth, re-run this script as Administrator.")
     except NotImplementedError as e:
         # Platform not supported for system-level toggle.
         print("System stealth not implemented on this OS:", e)
     except Exception as e:
-        # Catch-all for unexpected errors; keep the demo non-fatal.
+        # Catch-all: ensures the smoke test remains a non-fatal diagnostic tool.
         print("System stealth demo encountered an error:", e)
 
 
