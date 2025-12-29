@@ -9,6 +9,22 @@
 #   - Makes debugging and reporting easier (important for documentation + grading)
 ###############################
 
+"""
+Helper module to configure loggers in a consistent way across the project.
+To use this in your scripts, import the `get_logger` function and create
+a logger at module level:
+
+    from logging_setup import get_logger
+    logger = get_logger(__name__, "my_module.log")
+
+You can then call logger.info(), logger.warning(), etc., wherever you need
+to record events.  Log files are written into a `logs` directory in the
+project root.
+
+This module ensures that each logger only adds a single file handler,
+so that repeated calls do not duplicate log output.
+"""
+
 import logging
 import os
 
