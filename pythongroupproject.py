@@ -1,36 +1,58 @@
-#Python group project, Cybersecurity
+###############################
+# Project: Cybersecurity Multifunction Program
+# File: main.py
+# Purpose:
+#   Provides a simple command-line menu that lets the user run the project’s
+#   independent modules (OS/service fingerprinting, port scanning, firewall/DoS
+#   simulation, and stealth mode) from a single entry point.
+#
+#   - This file focuses on user interaction and routing (calling the right module).
+#   - Input parsing is protected with try/except to avoid crashes on invalid input.
+#   - Root/admin privileges are requested because some network/security operations
+#     may require elevated permissions.
+###############################
+
 import os
 import sys
 
 
-# 1. option: Service & OS-Fingerprinting
+# 1) Option: Service & OS Fingerprinting
 from fingerprinting import fingerprint_host
 
 
 def service_os_menu() -> None:
+    # Menu handler for OS and service fingerprinting.
+    # Collects user input (target IP, ports, options), validates it, then calls
+    #fingerprint_host(). Results are printed and saved to a CSV file.
     print("PyNetGuard – Service & OS Fingerprinting\n")
 
     ip = input("Target IP (e.g. 127.0.0.1): ").strip()
     ports_str = input("Ports (comma separated, e.g. 22,80,443): ").strip()
 
+    # Public IP scanning is potentially sensitive; this flag acts as an explicit consent switch.
     allow_public_in = input("Allow scanning public IPs? (y/N): ").strip().lower()
     allow_public = allow_public_in in ("y", "yes")
 
+    # CSV history can either be appended or overwritten.
     append_in = input("Append results to CSV (keep history)? (Y/n): ").strip().lower()
     append_csv = append_in not in ("n", "no")
 
     output_file = "fingerprint_results.csv"
 
+    # Port list parsing is validated so non-numeric input does not crash the program.
     try:
         ports = [int(p.strip()) for p in ports_str.split(",") if p.strip()]
     except ValueError:
         print("Invalid port list. Please enter only numbers separated by commas.")
         return
 
+    # Guard clause: running a scan without ports is not meaningful.
     if not ports:
         print("No ports given – aborting scan.")
         return
 
+    # fingerprint_host is treated as a "service" that may fail due to invalid input,
+    # missing tools (e.g., nmap), connectivity issues, or other runtime constraints.
     try:
         results = fingerprint_host(
             ip,
@@ -66,31 +88,40 @@ def service_os_menu() -> None:
 
     print(f"\nSaved to: {output_file}")
 
-# 2. option: Port Scanner
+# 2) Option: Port Scanner
 from Port_Scanner_withlogcalls import port_scanner_withlogcalls
 
 
-# 3. option: Firewall-/DoS-Simulation
+# 3) Option: Firewall / DoS Simulation
 from firewall_simulation.firewall_simulation import start_firewall_simulation
 
 def firewall_menu() -> None:
+    # Menu handler for the firewall and DoS simulation module.
+    #The simulation runs until the user stops it (CTRL+C), which is typical for
+    #long-running monitoring or simulation processes.
     print("\n=== Firewall / DoS Simulation ===")
     print("Press CTRL+C to stop\n")
     start_firewall_simulation()
 
-# 4. option: Stealth Mode
+# 4) Option: Stealth Mode
 from stealth_engine import set_stealth_mode
 import stealth_engine as stealth_engine
 
-# 5. option: Reporting & Logging
+# 5) Reporting & Logging
 from logging_setup import get_logger
 import logs
 
-#main function
+
 def main() -> None:
-    # This is the main()-function, where the user interface is. The user can choose between the 4 available services.      
-    # As this program needs access to system-critical information, the user must enter his password, in order for the program to access the information.
-    # On windows: Administrator privileges.
+    # Entry point for the CLI application.
+    # Responsibilities:
+    # - Ensure the program runs with sufficient privileges (root/admin).
+    # - Present a menu and route the user to the chosen module.
+    # - Prevent common input errors (non-integer choices, out-of-range values).
+    # - Provide a simple loop to return to the menu or quit cleanly.
+
+    # Some networking/security features may require root/admin privileges.
+    # On Linux/macOS, os.geteuid() checks effective user ID; if not root, re-run with sudo.
     if os.geteuid() != 0:
         print("\nBefore using this program, be aware that it requires root privileges (administrator privileges) in order to run.")
         print("If you consent, please enter the password of your device below, in order to restart with sudo.\nIt will not be displayed on the screen.\n")
@@ -106,8 +137,11 @@ def main() -> None:
         #If the user enters a wrong number, the program will jump back to the input. If a valid integer has been entered, the program jumps to the selected function.
         try:
             service_choice = int(service_choice)
+            # Range check prevents invalid choices from being executed.
+            # If out of range, raise ValueError to reuse the existing error handling path.
             if 1 < service_choice > 4:
                 raise ValueError
+            # Route to the selected functionality.
             if service_choice == 1:
                 service_os_menu()
             elif service_choice == 2:
@@ -120,6 +154,7 @@ def main() -> None:
         except ValueError:
             print("\nError. Please enter an integer between 1 and 4, according to the program you desire:")
         
+        # Inner loop controls whether we return to the main menu or exit the program.
         while True:
             # We use the strip-function, to get remove the following and leading whitepaces. This makes the function more error-proof.
             continuing_options = input("\n-----------\nIf you wish to return to the services-menu, press ENTER. If you wish to end the program, enter QUIT: ").strip()
