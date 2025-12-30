@@ -188,6 +188,7 @@ def main() -> None:
                         choice = int(choice)
                         if choice == 1:
                             set_stealth_mode()
+                            print("The results of this execution are now available in the logs-folder")
                             break
                         elif choice == 2:
                             main_smoke_test()
