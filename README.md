@@ -1,28 +1,29 @@
-# pythongroupproject
+# Python group project: cybersecurity-multitool
 
 ## Overview
+This is a Group project in the course Skills:Programing by Mario Silic. The project written in Python3 is a Cybersecurity-Multitool, which offers the user a mini-program with an interface, from which it can choose several services.
 
-This project is a python cybersecurity project.
 It demonstrates basic security concepts such as port scanning, firewall and DoS simulation, OS and service fingerprinting,
-stealth techniques, and logging/reporting.
+stealth techniques and logging/reporting. Each service is explained in a comment sections at the top of each code.
 
-Each module can be executed independently.
+All these concepts are available in the services, except for the logging: The script logging_setup.py is programmed to monitor all the actions of the other services, which can be tracked in the logs-folder.
 
 
 ## Project Structure
 
 project-root/
-├── firewall_simulation.py
-├── Port Scanner.py
+├── main.py
 ├── fingerprinting.py
-├── os_fingerprint.py
-├── service_fingerprint.py
+├── port_scanner.py
+├── firewall_simulation.py
 ├── stealth_engine.py
+├── smoke_test.py
 ├── logging_setup.py
 ├── logs/
-│   ├── firewall_simulation.log
+│   ├── fingerprinting.log
 │   ├── port_scanner.log
-│   └── fingerprinting.log
+│   ├── firewall_simulation.log
+│   └── stealth_engine.log
 ├── config/
 │   ├── blacklist.txt
 │   ├── dos_config.txt
@@ -62,21 +63,17 @@ Nmap installation:
 2. Check Python installation
    python --version
 
-3. (Optional) Install Nmap if OS fingerprinting is required
+3. (Optional) Install Nmap (required for OS-fingerprinting)
 
 
 ## How to Start the Program
 
-Each module is started individually.
+All the 5 services are accessed through the interface in main.py. To start the program, enter "python3 main.py" in the terminal/command prompt, once the correct directory for the files has been set. It is then required, that the password of the device is entered, to allow access to system-critical information. If the password is not given, main.py does not allow access to the services. 
 
-Firewall & DoS Simulation:
-python firewall_simulation.py
+The interface is intuitively designed to access all features from it. The user must just follow the instructions in the terminal. After every execution, the user can either turn back to the menu to execute another service or quit the program.
 
-Port Scanner:
-python "Port Scanner.py"
-
-OS & Service Fingerprinting:
-python fingerprinting.py
+Each module can also be started individually. For this, just enter the python3 and the corresponding file,
+e.g. python3 fingerprinting.py (This file requires nmap and root/administrator privileges).
 
 
 ## Logging Design (Reporting & Documentation)
@@ -100,6 +97,9 @@ Log Files:
 - logs/fingerprinting.log
   Detected services and assigned risk levels
 
+- logs/stealth_engine.log
+  Records reactions to pings from ip-adresses
+
 Log Format:
 YYYY-MM-DD HH:MM:SS - LEVEL - message
 
@@ -114,10 +114,12 @@ Console vs Logging:
 
 ## Notes
 
-- Some features may require administrator privileges depending on the operating system
+- Some features may require administrator/root privileges depending on the operating system
+- The system-level stealth engine only works on Windows. There is a simulation (smoke_test.py) available though, which    can  be chosen in the services-menu, when option 4 is chosen.
 
 
 ## Course Information
 
 - University group project
 - Programming language: Python
+- Deadline: 31st of December 2025
