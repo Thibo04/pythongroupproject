@@ -1,6 +1,6 @@
 ###############################
 # Project: Cybersecurity Multifunction Program
-# Project members: Alan, Garret, Luca, Marc, Samuel, Thibo.
+# Project members: Alan, Garret, Luca, Marc, Samuel, Thibo
 # File: main.py
 # Purpose:
 #   Provides a simple command-line menu that lets the user run the project’s
