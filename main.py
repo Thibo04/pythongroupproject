@@ -182,7 +182,7 @@ def main() -> None:
                 firewall_menu()
             elif service_choice == 4:
                 while True:
-                    print("If you want to start the stealth mode directly (only for Windows): 1\nIf you want to test the program: 2")
+                    print("If you want to start the stealth mode directly (only for Windows): 1\nIf you want to test the program: ")
                     choice = input("Your choice (1 or 2): ")
                     try:
                         choice = int(choice)
