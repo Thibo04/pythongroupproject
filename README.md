@@ -51,7 +51,7 @@ Python standard libraries (no installation required):
 - platform
 
 External tool:
-- Nmap (required only for OS fingerprinting)
+- Nmap (required for OS fingerprinting, the program will crash if not installed)
 
 Nmap installation:
 - Windows: https://nmap.org/download.html
@@ -59,20 +59,8 @@ Nmap installation:
 - macOS: brew install nmap or download from website (same URL as Windows)
 
 
-## Installation
-
-1. Clone or download the repository
-   git clone <repository-url>
-   cd project-root
-
-2. Check Python installation
-   python --version
-
-3. (Optional) Install Nmap (required for OS-fingerprinting)
-
-
 ## How to Start the Program
-In short: Once the github file is downloaded, enter "python3 main.py" in the terminal/cmd
+In short: Download the file from github as a zip-file, enter "python3 main.py" in the terminal/cmd
 In more detail:
 1. Make sure, that you have Python 3.10 or newer installed
 2. Make sure, you have Nmap installed
@@ -128,7 +116,7 @@ Console vs Logging:
 ## Notes
 
 - Some features may require administrator/root privileges depending on the operating system
-- The system-level stealth engine only works on Windows. There is a simulation (smoke_test.py) available though, which    can  be chosen in the services-menu, when option 4 is chosen.
+- The system-level stealth engine only works on Windows. There is a simulation (smoke_test.py) available though, which can  be chosen in the services-menu, when option 4 is chosen.
 
 
 ## Course Information
