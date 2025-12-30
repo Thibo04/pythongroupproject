@@ -44,6 +44,9 @@ Python standard libraries (no installation required):
 - csv
 - logging
 - random
+- (python-)nmap
+- ctypes
+- platform
 
 External tool:
 - Nmap (required only for OS fingerprinting)
@@ -51,7 +54,7 @@ External tool:
 Nmap installation:
 - Windows: https://nmap.org/download.html
 - Linux: sudo apt install nmap
-- macOS: brew install nmap
+- macOS: brew install nmap or download from website (same URL as Windows)
 
 
 ## Installation
@@ -67,10 +70,18 @@ Nmap installation:
 
 
 ## How to Start the Program
+In short: Once the github file is downloaded, enter "python3 main.py" in the terminal/cmd
+In more detail:
+1. Make sure, that you have Python 3.10 or newer installed
+2. Make sure, you have Nmap installed
+3. Set the directory of the file (most likely "pythongroupproject-main")
+4. In the terminal/cmd, set the path for Nmap (e.g. on Windows: C:\Program Files (x86)\Nmap\)
+      You can check whether the program has access to it, by the command "nmap --version")
+5. If not, set the PATH for Nmap on Windows (via Run). On Mac, this is normally not necessary.
+6. If there is ModuleNotFoundError "nmap", enter the following command: py -m pip install python-nmap
+7. Execute "python3 main.py"
 
-All the 5 services are accessed through the interface in main.py. To start the program, enter "python3 main.py" in the terminal/command prompt, once the correct directory for the files has been set. It is then required, that the password of the device is entered, to allow access to system-critical information. If the password is not given, main.py does not allow access to the services. 
-
-The interface is intuitively designed to access all features from it. The user must just follow the instructions in the terminal. After every execution, the user can either turn back to the menu to execute another service or quit the program.
+All the 5 services are accessed through the interface in main.py. The interface is intuitively designed to access all features from it. The user must just follow the instructions in the terminal. After every execution, the user can either turn back to the menu to execute another service or quit the program.
 
 Each module can also be started individually. For this, just enter the python3 and the corresponding file,
 e.g. python3 fingerprinting.py (This file requires nmap and root/administrator privileges).
