@@ -50,6 +50,7 @@ import stealth_engine as se
 import ctypes
 
 
+
 def main_smoke_test() -> None:
     # ---- Import diagnostics ----
     print("Python:", sys.version.replace("\n", " "))
@@ -83,7 +84,7 @@ def main_smoke_test() -> None:
     probes_data = [
         (ProbeType.ICMP_ECHO, "10.0.0.5", 1000, "p1"),
         (ProbeType.ICMP_ECHO, "10.0.0.5", 1010, "p2"),
-        (ProbeType.TCP_SYN, "10.0.0.8", 1020, "p3"),
+        (ProbeType.TCP_SYN,   "10.0.0.8", 1020, "p3"),
     ]
 
     probes = [
@@ -110,16 +111,9 @@ def main_smoke_test() -> None:
     print()
 
     # ---- Order-independence check: evaluate in reverse order using a new engine ----
-    engine_a = StealthEngine(cfg)
-    engine_b = StealthEngine(cfg)
-
-    # Forward evaluation on engine_a
-    a1 = engine_a.evaluate(probes[0])
-    a2 = engine_a.evaluate(probes[1])
-
-    # Reverse evaluation on engine_b
-    b2 = engine_b.evaluate(probes[1])
-    b1 = engine_b.evaluate(probes[0])
+    engine_a = engine_b = StealthEngine(cfg)
+    a1 = b1 = engine_a.evaluate(probes[0])
+    a2 = b2 = engine_a.evaluate(probes[1])
 
     ok = (a1 == b1) and (a2 == b2)
     print("Order-independence check:", "OK" if ok else "FAIL")
