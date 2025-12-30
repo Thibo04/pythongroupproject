@@ -16,6 +16,9 @@ All these concepts are available in the services, except for the logging: The sc
 
 ## Project Structure
 
+## Project Structure
+
+```text
 project-root/
 ├── main.py
 ├── fingerprinting.py
@@ -34,8 +37,7 @@ project-root/
 │   ├── dos_config.txt
 │   └── nimda_signature.txt
 └── README.md
-
-
+```
 
 ## Requirements / Dependencies
 
