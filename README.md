@@ -69,7 +69,8 @@ In more detail:
       You can check whether the program has access to it, by the command "nmap --version")
 5. If not, set the PATH for Nmap on Windows (via Run). On Mac, this is normally not necessary.
 6. If there is ModuleNotFoundError "nmap", enter the following command: py -m pip install python-nmap
-7. Execute "python3 main.py"
+   After that, try again
+8. Execute "python3 main.py"
 
 All the 5 services are accessed through the interface in main.py. The interface is intuitively designed to access all features from it. The user must just follow the instructions in the terminal. After every execution, the user can either turn back to the menu to execute another service or quit the program.
 
