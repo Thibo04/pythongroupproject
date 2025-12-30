@@ -6,7 +6,7 @@ Project members: Alan, Garret, Luca, Marc, Samuel, Thibo
 
 Group ID: 4480
 
-This is a group project in the course Skills: Programmming by Mario Silic. The project written in Python is a Cybersecurity Multifunction Program, which offers the user a mini-program with an interface, from which it can choose several services.
+This is a group project in the course Skills: Programming by Mario Silic. The project written in Python is a Cybersecurity Multifunction Program, which offers the user a mini-program with an interface, from which it can choose several services.
 
 It demonstrates basic security concepts such as port scanning, firewall and DoS simulation, OS and service fingerprinting,
 stealth techniques and logging/reporting. Each service is explained in a comment section at the top of each code.
