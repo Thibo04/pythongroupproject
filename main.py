@@ -107,8 +107,42 @@ from stealth_engine import set_stealth_mode
 import stealth_engine as stealth_engine
 from smoke_test import main_smoke_test
 
-# 5) Reporting & Logging
-import logs
+# 5) Option: Reporting & Logging
+
+
+# Function, to ensure sufficient root/administrator-privileges. This function can also determine the operation system
+import platform
+import ctypes
+
+def is_admin() -> bool:
+    if platform.system() == "Windows":
+        try:
+            return ctypes.windll.shell32.IsUserAnAdmin()
+        except Exception:
+            return False
+    else:
+        return os.geteuid() == 0
+
+
+if not is_admin():
+    print("\nBefore using this program, be aware that it requires administrator/root privileges.\n")
+
+    if platform.system() == "Windows":
+        # Restart script with admin rights on Windows
+        ctypes.windll.shell32.ShellExecuteW(
+            None,
+            "runas",
+            sys.executable,
+            " ".join(sys.argv),
+            None,
+            1
+        )
+    else:
+        # Restart with sudo on Linux/macOS
+        print("If you consent, please enter the password of your device below, in order to restart with sudo.\nIt will not be displayed on the screen.\n")
+        os.execvp("sudo", ["sudo", sys.executable] + sys.argv)
+
+    sys.exit()
 
 def main() -> None:
     # Entry point for the CLI application.
@@ -120,10 +154,10 @@ def main() -> None:
 
     # Some networking/security features may require root/admin privileges.
     # On Linux/macOS, os.geteuid() checks effective user ID; if not root, re-run with sudo.
-    if os.geteuid() != 0:
-        print("\nBefore using this program, be aware that it requires root privileges (administrator privileges) in order to run.")
-        print("If you consent, please enter the password of your device below, in order to restart with sudo.\nIt will not be displayed on the screen.\n")
-        os.execvp("sudo", ["sudo", sys.executable] + sys.argv)
+    # On Windows, the is_admin-function checks if the system is run as administrator.
+    
+    is_admin()
+    #If this was successful, the program jumps to the next step  
     print("\nWelcome to our Cybersecurity-Multifunction-Program!\nWe offer several functions in Cybersecurity, to make your internet usage safer.")
     print("In the logs folder (in the subfiles) a full log is available of past actions of these functions.\nFurther information on the services offered in this program and its requirements are available in the README script.\n\n")
     print("To get started, select one of the following functions:")
