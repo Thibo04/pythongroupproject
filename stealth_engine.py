@@ -308,7 +308,7 @@ def set_stealth_mode(enable: bool) -> bool:
         return False
 
 if __name__ == "__main__":
-    set_stealth_mode()
+    set_stealth_mode(True)
     # Demo mode: evaluate a few probes and write results to the log.
     logger.info("Running stealth_engine demo (__main__)")
 
