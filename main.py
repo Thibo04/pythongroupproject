@@ -188,7 +188,7 @@ def main() -> None:
                         choice = int(choice)
                         if choice == 1:
                             set_stealth_mode(enable=True)        
-                            print("The results of this execution are now available in the logs-folder.\nTo see more detailed log-details follow path: ")
+                            print("The results of this execution are now available in the logs-folder.\nTo see more detailed log-details follow path: C:\Windows\System32\LogFiles\Firewall\pfirewall.log")
                             break
                         elif choice == 2:
                             main_smoke_test()
