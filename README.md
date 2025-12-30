@@ -17,39 +17,22 @@ All these concepts are available in the services, except for the logging: The sc
 ## Project Structure
 
 project-root/
-
 ├── main.py
-
 ├── fingerprinting.py
-
 ├── port_scanner.py
-
 ├── firewall_simulation.py
-
 ├── stealth_engine.py
-
 ├── smoke_test.py
-
 ├── logging_setup.py
-
 ├── logs/
-
 │   ├── fingerprinting.log
-
 │   ├── port_scanner.log
-
 │   ├── firewall_simulation.log
-
 │   └── stealth_engine.log
-
 ├── config/
-
 │   ├── blacklist.txt
-
 │   ├── dos_config.txt
-
 │   └── nimda_signature.txt
-
 └── README.md
 
 
