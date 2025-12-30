@@ -4,7 +4,7 @@
 
 Project members: Alan, Garret, Luca, Marc, Samuel, Thibo.
 
-This is a Group project in the course Skills:Programing by Mario Silic. The project written in Python3 is a Cybersecurity-Multitool, which offers the user a mini-program with an interface, from which it can choose several services.
+This is a group project in the course Skills: Programmming by Mario Silic. The project written in Python is a Cybersecurity Multifunction Program, which offers the user a mini-program with an interface, from which it can choose several services.
 
 It demonstrates basic security concepts such as port scanning, firewall and DoS simulation, OS and service fingerprinting,
 stealth techniques and logging/reporting. Each service is explained in a comment section at the top of each code.
