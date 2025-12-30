@@ -165,7 +165,7 @@ def main() -> None:
     running = True
     
     while running:   
-        service_choice = input("\n1. OS-Fingerprinting\n2. Port Scanner\n3. Firewall/DoS-Application\n4. Network Stealth Moden\n5. Quit programn\n\nEnter the number of the service you desire: ")
+        service_choice = input("\n1. OS-Fingerprinting\n2. Port Scanner\n3. Firewall/DoS-Application\n4. Network Stealth Mode\n5. Quit programn\n\nEnter the number of the service you desire: ")
         #If the user enters a wrong number, the program will jump back to the input. If a valid integer has been entered, the program jumps to the selected function.
         try:
             service_choice = int(service_choice)
