@@ -2,7 +2,7 @@
 
 ## Overview
 
-Project members: Alan, Garret, Luca, Marc, Samuel, Thibo.
+Project members: Alan, Garret, Luca, Marc, Samuel, Thibo
 
 Group ID: 4480
 
