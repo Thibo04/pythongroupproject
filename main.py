@@ -204,7 +204,7 @@ def main() -> None:
                 break
                        
         except ValueError:
-            print("\nError. Please enter an integer between 1 and 4, according to the program you desire:")
+            print("\nError. Please enter an integer between 1 and 4, according to the program you desire: ")
         
         # Inner loop controls whether we return to the main menu or exit the program.
         while True:
